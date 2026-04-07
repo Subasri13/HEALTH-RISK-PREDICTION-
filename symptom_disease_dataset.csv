@@ -1,0 +1,97 @@
+fever,cough,headache,fatigue,nausea,chest_pain,shortness_of_breath,sore_throat,body_ache,diarrhea,vomiting,runny_nose,dizziness,rash,loss_of_appetite,disease,risk_level
+1,1,0,1,0,0,0,1,1,0,0,1,0,0,0,Common Cold,Low
+1,1,1,1,0,0,0,1,1,0,0,1,0,0,1,Influenza,Medium
+1,1,1,1,1,0,1,0,1,0,1,0,1,0,1,COVID-19,High
+0,0,1,1,0,0,0,0,0,0,0,0,1,0,0,Migraine,Low
+1,0,0,1,1,0,0,0,0,1,1,0,0,0,1,Gastroenteritis,Medium
+1,0,0,1,0,1,1,0,1,0,0,0,1,0,0,Pneumonia,High
+0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,Allergy,Low
+1,1,1,1,0,0,0,1,0,0,0,1,0,0,0,Sinusitis,Low
+1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,Typhoid,High
+0,0,0,1,1,0,0,0,0,1,1,0,0,0,1,Food Poisoning,Medium
+1,0,0,1,0,1,1,0,0,0,0,0,1,0,0,Heart Disease,High
+1,1,0,1,0,0,0,1,0,0,0,1,0,0,0,Common Cold,Low
+0,1,1,1,0,0,1,0,0,0,0,0,0,0,0,Bronchitis,Medium
+1,0,1,1,1,0,0,0,1,1,1,0,1,0,1,Dengue,High
+0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,Common Cold,Low
+1,1,1,1,0,0,0,0,1,0,0,0,0,0,1,Malaria,High
+0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,Migraine,Low
+1,0,0,1,1,1,0,0,1,1,1,0,0,0,1,Cholera,High
+0,1,0,1,0,0,1,1,0,0,0,1,0,0,0,Common Cold,Low
+1,0,0,1,0,0,0,0,1,0,0,0,0,1,0,Chickenpox,Medium
+1,1,1,1,0,0,0,1,1,0,0,1,0,0,1,Influenza,Medium
+0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,Allergy,Low
+1,1,0,1,1,0,0,1,1,1,1,1,0,0,0,Influenza,Medium
+1,0,1,1,0,1,1,0,0,0,0,0,1,0,0,Pneumonia,High
+0,0,1,1,0,0,0,0,0,0,0,0,1,0,0,Migraine,Low
+1,1,1,1,1,0,1,0,1,1,1,0,1,0,1,COVID-19,High
+1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,Typhoid,High
+0,0,0,0,0,0,0,0,0,1,1,0,0,0,1,Food Poisoning,Medium
+1,1,0,1,0,0,0,1,0,0,0,1,0,0,0,Sinusitis,Low
+0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,Allergy,Low
+1,0,0,1,0,1,0,0,1,0,0,0,0,0,0,Typhoid,High
+1,1,1,1,0,0,1,1,1,0,0,1,0,0,0,COVID-19,High
+0,0,0,1,0,0,0,0,0,0,0,0,1,1,0,Allergy,Low
+1,0,1,1,1,0,0,0,1,1,1,0,0,0,1,Dengue,High
+1,1,0,0,0,0,0,1,0,0,0,1,0,0,0,Common Cold,Low
+0,1,0,1,0,0,1,0,0,0,0,0,0,0,0,Bronchitis,Medium
+1,0,0,1,0,1,1,0,1,0,0,0,1,0,1,Heart Disease,High
+1,1,1,0,0,0,0,1,1,0,0,1,0,0,0,Sinusitis,Low
+1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,Malaria,High
+0,0,0,1,1,0,0,0,0,1,0,0,0,0,1,Gastroenteritis,Medium
+1,1,1,1,1,0,1,1,1,0,0,1,0,0,0,Influenza,Medium
+0,0,1,1,0,1,1,0,0,0,0,0,1,0,0,Heart Disease,High
+1,0,0,1,1,0,0,0,0,1,1,0,1,0,1,Gastroenteritis,Medium
+1,1,0,1,0,0,0,1,1,0,0,0,0,0,0,Influenza,Medium
+0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,Allergy,Low
+1,1,1,1,0,0,0,0,1,0,0,0,0,0,1,Malaria,High
+1,0,0,0,0,1,1,0,0,0,0,0,1,0,0,Heart Disease,High
+0,1,1,1,0,0,1,1,0,0,0,1,0,0,0,Bronchitis,Medium
+1,0,1,1,1,0,0,0,1,0,1,0,0,0,1,Dengue,High
+1,1,1,1,0,0,1,1,1,0,0,1,1,0,0,COVID-19,High
+0,0,0,1,0,0,0,0,0,1,1,0,0,0,1,Food Poisoning,Medium
+1,0,0,1,0,0,0,0,0,0,0,0,0,1,0,Chickenpox,Medium
+1,1,0,1,0,0,0,1,1,0,0,1,0,0,0,Common Cold,Low
+0,1,0,1,0,0,1,0,0,0,0,0,1,0,0,Bronchitis,Medium
+1,1,1,1,0,0,0,0,1,0,0,0,0,1,1,Chickenpox,Medium
+1,0,1,1,0,1,1,0,1,0,0,0,0,0,0,Pneumonia,High
+0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,Migraine,Low
+1,0,0,1,1,0,0,0,0,1,1,0,0,0,0,Cholera,High
+1,1,1,1,1,0,1,0,1,0,0,0,1,0,1,COVID-19,High
+0,0,0,1,0,1,1,0,0,0,0,0,1,0,0,Heart Disease,High
+1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,Typhoid,High
+0,1,1,1,0,0,0,1,0,0,0,1,0,0,0,Sinusitis,Low
+1,1,0,1,1,0,0,0,1,1,1,0,0,0,1,Gastroenteritis,Medium
+1,0,1,1,1,0,0,0,1,0,1,0,1,0,1,Dengue,High
+0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,Food Poisoning,Medium
+1,1,1,1,0,0,1,1,0,0,0,1,0,0,0,COVID-19,High
+1,0,0,1,0,0,0,0,1,0,0,0,0,0,1,Malaria,High
+0,1,0,0,0,0,0,1,0,0,0,1,0,0,0,Common Cold,Low
+1,0,0,1,0,1,1,0,0,0,0,0,0,0,0,Pneumonia,High
+0,0,1,1,0,0,0,0,0,0,0,0,1,1,0,Allergy,Low
+1,1,1,1,1,1,1,0,1,0,0,0,1,0,1,COVID-19,High
+1,0,1,1,0,0,0,0,1,0,0,0,0,0,0,Typhoid,High
+0,1,1,1,0,0,1,0,0,0,0,0,0,0,1,Bronchitis,Medium
+1,0,0,1,1,1,0,0,1,1,1,0,0,0,1,Cholera,High
+1,1,0,1,0,0,0,1,0,0,0,1,0,0,0,Common Cold,Low
+0,0,0,0,0,1,1,0,0,0,0,0,1,0,0,Heart Disease,High
+1,1,1,1,0,0,0,1,1,0,0,1,0,0,0,Influenza,Medium
+1,0,0,1,0,0,0,0,0,0,0,0,0,1,1,Chickenpox,Medium
+0,0,1,1,0,0,0,0,0,0,0,0,1,0,0,Migraine,Low
+1,1,1,1,1,0,1,1,1,0,1,1,1,0,1,COVID-19,High
+1,0,1,1,0,1,1,0,1,0,0,0,1,0,0,Pneumonia,High
+0,0,0,1,1,0,0,0,0,1,1,0,0,0,0,Gastroenteritis,Medium
+1,1,0,1,0,0,0,0,1,0,0,1,0,0,0,Influenza,Medium
+1,0,1,1,1,0,0,0,1,0,1,0,1,0,1,Malaria,High
+0,1,0,1,0,0,0,1,0,0,0,1,0,0,0,Common Cold,Low
+1,0,0,1,0,1,0,0,1,0,0,0,0,0,0,Typhoid,High
+0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,Allergy,Low
+1,1,1,1,0,0,1,0,1,0,0,0,0,0,1,COVID-19,High
+1,0,1,0,0,1,1,0,0,0,0,0,1,0,0,Heart Disease,High
+0,1,1,0,0,0,0,1,0,0,0,1,0,0,0,Sinusitis,Low
+1,1,0,1,0,0,0,1,1,0,0,1,0,0,0,Influenza,Medium
+0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,Food Poisoning,Medium
+1,0,1,1,1,0,0,0,0,1,1,0,0,0,0,Dengue,High
+1,1,1,1,0,0,0,0,0,0,0,1,0,0,0,Common Cold,Low
+0,0,1,1,0,1,1,0,0,0,0,0,1,0,0,Pneumonia,High
+1,0,0,1,0,0,0,0,1,0,0,0,0,1,1,Chickenpox,Medium

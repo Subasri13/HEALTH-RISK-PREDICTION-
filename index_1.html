@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MediEx – Health Risk Prediction</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"/>
+  <style>
+    :root{--bg:#030712;--s1:#0a0f1e;--s2:#0f1729;--card:#111c2e;--border:#1a2840;--accent:#3b82f6;--cyan:#06b6d4;--violet:#8b5cf6;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;--pink:#ec4899;--text:#e2e8f0;--muted:#64748b;--font:'Outfit',sans-serif;}
+    *{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;overflow-x:hidden;}
+    .orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;}
+    .orb1{width:600px;height:600px;background:rgba(59,130,246,.07);top:-150px;right:-150px;}
+    .orb2{width:500px;height:500px;background:rgba(139,92,246,.05);bottom:-100px;left:-150px;}
+    .wrap{position:relative;z-index:1;max-width:1280px;margin:0 auto;padding:0 24px 80px;}
+
+    /* HEADER */
+    header{display:flex;align-items:center;justify-content:space-between;padding:22px 0;border-bottom:1px solid var(--border);margin-bottom:0;}
+    .logo{display:flex;align-items:center;gap:12px;}
+    .logo-icon{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--violet));display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 0 24px rgba(59,130,246,.25);}
+    .logo-name{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+    .logo-name span{color:var(--cyan);}
+    .hbadge{padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid rgba(16,185,129,.3);color:var(--green);background:rgba(16,185,129,.08);display:flex;align-items:center;gap:6px;}
+    .dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s infinite;}
+    @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.3;transform:scale(1.5);}}
+    .nav{display:flex;gap:4px;background:var(--s1);padding:4px;border-radius:12px;border:1px solid var(--border);}
+    .ntab{padding:9px 22px;border-radius:9px;font-size:14px;font-weight:600;color:var(--muted);border:none;background:none;cursor:pointer;transition:all .2s;}
+    .ntab.active{background:var(--card);color:var(--text);}
+
+    /* HERO */
+    .hero{text-align:center;padding:52px 0 44px;}
+    .htag{display:inline-flex;align-items:center;gap:8px;background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);padding:6px 18px;border-radius:100px;font-size:13px;color:var(--accent);font-weight:600;margin-bottom:22px;}
+    h1{font-size:clamp(34px,5vw,62px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:16px;}
+    .g1{background:linear-gradient(135deg,#fff,#94a3b8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .g2{background:linear-gradient(135deg,var(--accent),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+    .hero-sub{color:var(--muted);font-size:16px;max-width:520px;margin:0 auto 32px;line-height:1.65;}
+    .hstats{display:flex;justify-content:center;gap:48px;flex-wrap:wrap;}
+    .hs{text-align:center;}
+    .hs-n{font-size:26px;font-weight:800;color:var(--accent);}
+    .hs-l{font-size:12px;color:var(--muted);font-weight:500;margin-top:2px;}
+
+    /* SECTIONS */
+    .sec{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:22px;animation:fup .5s ease both;}
+    @keyframes fup{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+    .sec-hd{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border);}
+    .sec-ico{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+    .i-blue{background:rgba(59,130,246,.15);}
+    .i-violet{background:rgba(139,92,246,.15);}
+    .i-cyan{background:rgba(6,182,212,.15);}
+    .i-green{background:rgba(16,185,129,.15);}
+    .i-pink{background:rgba(236,72,153,.15);}
+    .sec-title{font-size:15px;font-weight:700;}
+    .sec-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+    .cbadge{margin-left:auto;width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
+    /* FIELDS */
+    .fr{display:grid;gap:16px;margin-bottom:16px;}
+    .fr2{grid-template-columns:1fr 1fr;}
+    .fr3{grid-template-columns:1fr 1fr 1fr;}
+    .fr1{grid-template-columns:1fr;}
+    @media(max-width:640px){.fr2,.fr3{grid-template-columns:1fr;}}
+    .fld{display:flex;flex-direction:column;gap:7px;}
+    label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;}
+    input[type=text],input[type=number],select,textarea{background:var(--s1);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:var(--font);font-size:14px;transition:border .2s,box-shadow .2s;width:100%;}
+    input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(59,130,246,.1);}
+    select option{background:var(--s2);}
+    textarea{resize:vertical;min-height:80px;line-height:1.5;}
+
+    /* RADIO */
+    .rg{display:flex;gap:8px;flex-wrap:wrap;}
+    .ro{position:relative;}
+    .ro input{position:absolute;opacity:0;width:0;height:0;}
+    .rl{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:10px;border:1.5px solid var(--border);background:var(--s1);font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;}
+    .ro input:checked~.rl{border-color:var(--accent);background:rgba(59,130,246,.1);color:var(--accent);}
+
+    /* SYMPTOMS */
+    .sg{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+    .sc{position:relative;cursor:pointer;}
+    .sc input{position:absolute;opacity:0;width:0;height:0;}
+    .chip{display:flex;flex-direction:column;align-items:center;gap:7px;padding:16px 10px;border-radius:14px;border:1.5px solid var(--border);background:var(--s1);font-size:13px;font-weight:500;transition:all .22s;text-align:center;line-height:1.3;}
+    .ce{font-size:26px;}
+    .sc input:checked~.chip{border-color:var(--accent);background:rgba(59,130,246,.1);color:var(--accent);transform:translateY(-3px);box-shadow:0 6px 20px rgba(59,130,246,.15);}
+    .sev-row{display:flex;gap:10px;margin-top:18px;}
+    .sp{flex:1;padding:11px;border-radius:10px;border:1.5px solid var(--border);background:var(--s1);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-align:center;}
+    .sp.sm{border-color:var(--green);color:var(--green);background:rgba(16,185,129,.08);}
+    .sp.smod{border-color:var(--yellow);color:var(--yellow);background:rgba(245,158,11,.08);}
+    .sp.ssev{border-color:var(--red);color:var(--red);background:rgba(239,68,68,.08);}
+
+    /* BUTTON */
+    .btn-wrap{position:sticky;bottom:24px;z-index:10;margin-top:24px;}
+    .btn{width:100%;padding:18px;border-radius:16px;border:none;background:linear-gradient(135deg,var(--accent),var(--violet));color:#fff;font-family:var(--font);font-size:17px;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 8px 32px rgba(59,130,246,.28);display:flex;align-items:center;justify-content:center;gap:10px;}
+    .btn:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(59,130,246,.38);}
+    .btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+    .spin{width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:sp .7s linear infinite;display:none;}
+    @keyframes sp{to{transform:rotate(360deg);}}
+    .loading .spin{display:block;}
+    .loading .btxt{display:none;}
+
+    /* RESULTS */
+    #rarea{margin-top:32px;display:none;}
+    #rarea.show{display:block;animation:fup .5s ease;}
+
+    .risk-banner{border-radius:20px;padding:28px 32px;display:flex;align-items:center;gap:22px;margin-bottom:26px;position:relative;overflow:hidden;}
+    .risk-banner.low{background:linear-gradient(135deg,rgba(16,185,129,.14),rgba(16,185,129,.04));border:1.5px solid rgba(16,185,129,.3);}
+    .risk-banner.medium{background:linear-gradient(135deg,rgba(245,158,11,.14),rgba(245,158,11,.04));border:1.5px solid rgba(245,158,11,.3);}
+    .risk-banner.high{background:linear-gradient(135deg,rgba(239,68,68,.17),rgba(239,68,68,.05));border:1.5px solid rgba(239,68,68,.4);animation:glow 2s infinite;}
+    @keyframes glow{0%,100%{box-shadow:0 0 0 rgba(239,68,68,0);}50%{box-shadow:0 0 28px rgba(239,68,68,.18);}}
+    .re{font-size:54px;}
+    .rl2{font-size:26px;font-weight:900;letter-spacing:-1px;}
+    .rm{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+    .rgrid{display:grid;grid-template-columns:1fr 1.6fr;gap:20px;margin-bottom:22px;}
+    @media(max-width:700px){.rgrid{grid-template-columns:1fr;}}
+    .rc{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px;}
+    .rct{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:14px;}
+    .dbig{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+    .cpill{display:inline-block;background:rgba(6,182,212,.12);border:1px solid rgba(6,182,212,.25);color:var(--cyan);font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;margin-top:8px;}
+    .pi{margin-bottom:12px;}
+    .pt{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;}
+    .pn{font-weight:600;}
+    .pp{color:var(--muted);}
+    .ptrack{height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+    .pfill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--cyan));transition:width 1s ease;}
+
+    .recgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+    @media(max-width:600px){.recgrid{grid-template-columns:1fr;}}
+    .ri2{display:flex;align-items:flex-start;gap:10px;background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:14px;}
+    .rdot{min-width:8px;height:8px;border-radius:50%;background:var(--accent);margin-top:5px;flex-shrink:0;}
+    .rtxt{font-size:13px;line-height:1.55;}
+
+    .psum{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;background:var(--s2);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:22px;}
+    .psi{display:flex;flex-direction:column;gap:3px;}
+    .psl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em;}
+    .psv{font-size:14px;font-weight:600;}
+
+    /* HISTORY */
+    .srow{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:26px;}
+    @media(max-width:600px){.srow{grid-template-columns:1fr 1fr;}}
+    .sb{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;}
+    .sbn{font-size:30px;font-weight:900;letter-spacing:-1px;}
+    .sbl{font-size:12px;color:var(--muted);margin-top:4px;}
+    table{width:100%;border-collapse:collapse;font-size:13px;}
+    th{padding:12px 16px;text-align:left;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;background:var(--s1);}
+    td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    .badge{display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+    .bl{background:rgba(16,185,129,.12);color:var(--green);}
+    .bm{background:rgba(245,158,11,.12);color:var(--yellow);}
+    .bh{background:rgba(239,68,68,.12);color:var(--red);}
+    .disc{text-align:center;font-size:12px;color:var(--muted);margin-top:22px;line-height:1.7;}
+    .empty-s{text-align:center;padding:60px;color:var(--muted);}
+    .scnt{font-size:13px;color:var(--muted);margin-top:12px;}
+    .scnt span{color:var(--accent);font-weight:700;}
+  </style>
+</head>
+<body>
+<div class="orb orb1"></div>
+<div class="orb orb2"></div>
+<div class="wrap">
+
+  <header>
+    <div class="logo">
+      <div class="logo-icon">🩺</div>
+      <div class="logo-name">Medi<span>Ex</span></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div class="hbadge"><div class="dot"></div>Analysis</div>
+      <div class="nav">
+        <button class="ntab active" onclick="showTab('predict',this)">🔬 Predict</button>
+        <button class="ntab" onclick="showTab('history',this)">📜 History</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- PREDICT TAB -->
+  <div id="tab-predict">
+    <div class="hero">
+      <div class="htag">🧠 AI-Powered Health Risk Detection</div>
+      <h1><span class="g1">Smart Health</span><br/><span class="g2">Risk Prediction</span></h1>
+      <p class="hero-sub">Fill in your patient details and symptoms to receive an intelligent disease prediction with personalized medical recommendations.</p>
+      <div class="hstats">
+        <div class="hs"><div class="hs-n">16+</div><div class="hs-l">Diseases Detected</div></div>
+        <div class="hs"><div class="hs-n">15</div><div class="hs-l">Symptom Factors</div></div>
+        <div class="hs"><div class="hs-n">95%</div><div class="hs-l">Model Accuracy</div></div>
+        <div class="hs"><div class="hs-n">3</div><div class="hs-l">Risk Levels</div></div>
+      </div>
+    </div>
+
+    <!-- Section 1: Personal Info -->
+    <div class="sec" style="animation-delay:.08s">
+      <div class="sec-hd">
+        <div class="sec-ico i-blue">👤</div>
+        <div><div class="sec-title">Personal Information</div><div class="sec-sub">Basic patient details for accurate prediction</div></div>
+      </div>
+      <div class="fr fr2">
+        <div class="fld"><label>Full Name *</label><input type="text" id="f-name" placeholder="e.g. Subasri K"/></div>
+        <div class="fld"><label>Age *</label><input type="number" id="f-age" placeholder="e.g. 22" min="1" max="120"/></div>
+      </div>
+      <div class="fr fr3">
+        <div class="fld"><label>Gender *</label>
+          <select id="f-gender"><option value="">Select gender</option><option>Male</option><option>Female</option><option>Other</option></select>
+        </div>
+        <div class="fld"><label>Blood Group</label>
+          <select id="f-blood"><option value="">Select</option><option>A+</option><option>A-</option><option>B+</option><option>B-</option><option>AB+</option><option>AB-</option><option>O+</option><option>O-</option></select>
+        </div>
+        <div class="fld"><label>Phone Number</label><input type="text" id="f-phone" placeholder="e.g. 9876543210"/></div>
+      </div>
+      <div class="fr fr2">
+        <div class="fld"><label>City / Location</label><input type="text" id="f-city" placeholder="e.g. Chennai"/></div>
+        <div class="fld"><label>Occupation</label><input type="text" id="f-job" placeholder="e.g. Student, Engineer"/></div>
+      </div>
+    </div>
+
+    <!-- Section 2: Medical History -->
+    <div class="sec" style="animation-delay:.12s">
+      <div class="sec-hd">
+        <div class="sec-ico i-violet">🏥</div>
+        <div><div class="sec-title">Medical History</div><div class="sec-sub">Significantly improves prediction accuracy</div></div>
+      </div>
+      <div class="fr fr2">
+        <div class="fld"><label>Diabetes?</label>
+          <div class="rg"><label class="ro"><input type="radio" name="dia" value="Yes"><span class="rl">✅ Yes</span></label><label class="ro"><input type="radio" name="dia" value="No" checked><span class="rl">❌ No</span></label></div>
+        </div>
+        <div class="fld"><label>Hypertension (High BP)?</label>
+          <div class="rg"><label class="ro"><input type="radio" name="bp" value="Yes"><span class="rl">✅ Yes</span></label><label class="ro"><input type="radio" name="bp" value="No" checked><span class="rl">❌ No</span></label></div>
+        </div>
+      </div>
+      <div class="fr fr2">
+        <div class="fld"><label>Heart Disease History?</label>
+          <div class="rg"><label class="ro"><input type="radio" name="heart" value="Yes"><span class="rl">✅ Yes</span></label><label class="ro"><input type="radio" name="heart" value="No" checked><span class="rl">❌ No</span></label></div>
+        </div>
+        <div class="fld"><label>Smoking / Alcohol?</label>
+          <div class="rg"><label class="ro"><input type="radio" name="smoke" value="Smoker"><span class="rl">🚬 Smoker</span></label><label class="ro"><input type="radio" name="smoke" value="Alcohol"><span class="rl">🍺 Alcohol</span></label><label class="ro"><input type="radio" name="smoke" value="None" checked><span class="rl">✅ None</span></label></div>
+        </div>
+      </div>
+      <div class="fr fr2">
+        <div class="fld"><label>Known Allergies</label><input type="text" id="f-allergy" placeholder="e.g. Pollen, Dust, Penicillin, None"/></div>
+        <div class="fld"><label>Current Medications</label><input type="text" id="f-meds" placeholder="e.g. Metformin, None"/></div>
+      </div>
+      <div class="fr fr1">
+        <div class="fld"><label>Previous Major Illnesses / Surgeries</label><textarea id="f-history" placeholder="e.g. Appendix surgery 2019, Typhoid 2021, None"></textarea></div>
+      </div>
+    </div>
+
+    <!-- Section 3: Current Condition -->
+    <div class="sec" style="animation-delay:.16s">
+      <div class="sec-hd">
+        <div class="sec-ico i-cyan">📋</div>
+        <div><div class="sec-title">Current Condition</div><div class="sec-sub">Details about your present health state</div></div>
+      </div>
+      <div class="fr fr3">
+        <div class="fld"><label>Body Temperature (°F)</label><input type="number" id="f-temp" placeholder="e.g. 101.5" step="0.1"/></div>
+        <div class="fld"><label>Duration of Symptoms</label>
+          <select id="f-dur"><option value="">Select</option><option>Less than 1 day</option><option>1–3 days</option><option>4–7 days</option><option>1–2 weeks</option><option>More than 2 weeks</option></select>
+        </div>
+        <div class="fld"><label>Oxygen Level SpO2 (%)</label><input type="number" id="f-spo2" placeholder="e.g. 98" min="80" max="100"/></div>
+      </div>
+      <div class="fr fr3">
+        <div class="fld"><label>Blood Pressure</label>
+          <select id="f-bp2"><option value="">Select</option><option>Normal (120/80)</option><option>Low (below 90/60)</option><option>High (above 140/90)</option><option>Not measured</option></select>
+        </div>
+        <div class="fld"><label>Recent Travel History?</label>
+          <div class="rg"><label class="ro"><input type="radio" name="travel" value="Yes"><span class="rl">✈️ Yes</span></label><label class="ro"><input type="radio" name="travel" value="No" checked><span class="rl">🏠 No</span></label></div>
+        </div>
+        <div class="fld"><label>Contact with Sick Person?</label>
+          <div class="rg"><label class="ro"><input type="radio" name="contact" value="Yes"><span class="rl">✅ Yes</span></label><label class="ro"><input type="radio" name="contact" value="No" checked><span class="rl">❌ No</span></label></div>
+        </div>
+      </div>
+      <div class="fr fr1">
+        <div class="fld"><label>Describe Your Symptoms in Your Own Words</label><textarea id="f-desc" placeholder="e.g. I have had high fever for 3 days with severe headache and body pain. I feel very weak and have no appetite..."></textarea></div>
+      </div>
+    </div>
+
+    <!-- Section 4: Symptoms -->
+    <div class="sec" style="animation-delay:.2s">
+      <div class="sec-hd">
+        <div class="sec-ico i-pink">🔍</div>
+        <div><div class="sec-title">Symptom Checklist</div><div class="sec-sub">Select ALL symptoms you are currently experiencing</div></div>
+        <div class="cbadge" id="ccount">0</div>
+      </div>
+      <div class="sg" id="sym-grid"></div>
+      <div class="scnt">You selected: <span id="snum">0</span> symptoms</div>
+      <div style="margin-top:20px;">
+        <label style="display:block;margin-bottom:10px;">Overall Symptom Severity</label>
+        <div class="sev-row">
+          <button class="sp sm" id="sv1" onclick="setSev('mild')">😊 Mild</button>
+          <button class="sp" id="sv2" onclick="setSev('moderate')">😐 Moderate</button>
+          <button class="sp" id="sv3" onclick="setSev('severe')">😰 Severe</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-wrap">
+      <button class="btn" id="gobtn" onclick="analyze()">
+        <span class="btxt">🧠 Analyze & Predict Health Risk</span>
+        <div class="spin"></div>
+      </button>
+    </div>
+
+    <!-- RESULTS -->
+    <div id="rarea">
+      <!-- Patient Summary -->
+      <div class="sec" style="margin-top:32px;">
+        <div class="sec-hd"><div class="sec-ico i-blue">👤</div><div><div class="sec-title">Patient Summary</div><div class="sec-sub">Complete profile used for analysis</div></div></div>
+        <div class="psum" id="psum"></div>
+      </div>
+
+      <!-- Risk Banner -->
+      <div class="risk-banner" id="rbanner">
+        <div class="re" id="remoji"></div>
+        <div><div class="rl2" id="rlabel"></div><div class="rm" id="rmsg"></div></div>
+      </div>
+
+      <!-- Disease + Probs -->
+      <div class="rgrid">
+        <div class="rc">
+          <div class="rct">Primary Diagnosis</div>
+          <div class="dbig" id="rdisease">—</div>
+          <div class="cpill" id="rconf">—</div>
+        </div>
+        <div class="rc">
+          <div class="rct">Top Possibilities</div>
+          <div id="rprobs"></div>
+        </div>
+      </div>
+
+      <!-- Recommendations -->
+      <div class="sec">
+        <div class="sec-hd"><div class="sec-ico i-green">💡</div><div><div class="sec-title">Medical Recommendations</div><div class="sec-sub">Personalized steps based on your diagnosis</div></div></div>
+        <div class="recgrid" id="rrecs"></div>
+      </div>
+
+      <!-- Additional Notes -->
+      <div class="sec">
+        <div class="sec-hd"><div class="sec-ico i-violet">📝</div><div><div class="sec-title">Additional Notes Based on Your Profile</div><div class="sec-sub">Risk factors identified from your medical history</div></div></div>
+        <div id="rextra" style="font-size:14px;line-height:1.9;color:var(--muted);"></div>
+      </div>
+
+      <div class="disc">⚕️ This is an AI-assisted educational tool and is <strong>NOT a substitute for professional medical advice</strong>.<br/>Always consult a qualified doctor for proper diagnosis and treatment.</div>
+    </div>
+  </div>
+
+  <!-- HISTORY TAB -->
+  <div id="tab-history" style="display:none;">
+    <div style="padding:40px 0 24px;"><h2 style="font-size:28px;font-weight:800;letter-spacing:-.5px;">Prediction History</h2><p style="color:var(--muted);margin-top:6px;">All past health risk analyses stored on this device</p></div>
+    <div class="srow">
+      <div class="sb"><div class="sbn" id="ht" style="color:var(--accent)">0</div><div class="sbl">Total Predictions</div></div>
+      <div class="sb"><div class="sbn" id="hh" style="color:var(--red)">0</div><div class="sbl">High Risk</div></div>
+      <div class="sb"><div class="sbn" id="hm" style="color:var(--yellow)">0</div><div class="sbl">Medium Risk</div></div>
+      <div class="sb"><div class="sbn" id="hl" style="color:var(--green)">0</div><div class="sbl">Low Risk</div></div>
+    </div>
+    <div class="sec">
+      <div style="overflow-x:auto;">
+        <table>
+          <thead><tr><th>Name</th><th>Age</th><th>Gender</th><th>Diagnosis</th><th>Risk</th><th>Symptoms</th><th>Date</th></tr></thead>
+          <tbody id="hbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const SYMS=[
+  {k:'fever',l:'Fever',e:'🌡️'},{k:'cough',l:'Cough',e:'😮‍💨'},{k:'headache',l:'Headache',e:'🤕'},
+  {k:'fatigue',l:'Fatigue',e:'😴'},{k:'nausea',l:'Nausea',e:'🤢'},{k:'chest_pain',l:'Chest Pain',e:'💔'},
+  {k:'shortness_of_breath',l:'Breathlessness',e:'😤'},{k:'sore_throat',l:'Sore Throat',e:'🗣️'},
+  {k:'body_ache',l:'Body Ache',e:'💪'},{k:'diarrhea',l:'Diarrhea',e:'🚽'},
+  {k:'vomiting',l:'Vomiting',e:'🤮'},{k:'runny_nose',l:'Runny Nose',e:'🤧'},
+  {k:'dizziness',l:'Dizziness',e:'💫'},{k:'rash',l:'Skin Rash',e:'🔴'},{k:'loss_of_appetite',l:'No Appetite',e:'🍽️'},
+];
+const RULES=[
+  {s:['chest_pain','shortness_of_breath'],d:'Heart Disease',r:'High'},
+  {s:['fever','cough','shortness_of_breath','fatigue'],d:'COVID-19',r:'High'},
+  {s:['fever','body_ache','dizziness','rash'],d:'Dengue',r:'High'},
+  {s:['fever','headache','body_ache','loss_of_appetite'],d:'Typhoid',r:'High'},
+  {s:['fever','diarrhea','vomiting'],d:'Cholera',r:'High'},
+  {s:['fever','cough','chest_pain'],d:'Pneumonia',r:'High'},
+  {s:['fever','body_ache','headache','fatigue'],d:'Malaria',r:'High'},
+  {s:['fever','cough','body_ache','headache'],d:'Influenza',r:'Medium'},
+  {s:['nausea','diarrhea','vomiting'],d:'Food Poisoning',r:'Medium'},
+  {s:['cough','shortness_of_breath'],d:'Bronchitis',r:'Medium'},
+  {s:['fever','rash','fatigue'],d:'Chickenpox',r:'Medium'},
+  {s:['nausea','loss_of_appetite','fatigue'],d:'Gastroenteritis',r:'Medium'},
+  {s:['fever','cough','sore_throat','runny_nose'],d:'Common Cold',r:'Low'},
+  {s:['headache','dizziness'],d:'Migraine',r:'Low'},
+  {s:['rash','fatigue'],d:'Allergy',r:'Low'},
+  {s:['headache','sore_throat','runny_nose'],d:'Sinusitis',r:'Low'},
+];
+const RECS={
+  'Common Cold':['Rest at home for 2–3 days','Drink warm fluids and stay hydrated','Steam inhalation twice daily','OTC cold medicine if needed'],
+  'Influenza':['Bed rest for 5–7 days','Take antipyretics to control fever','Stay very well hydrated','Consult doctor if symptoms worsen'],
+  'COVID-19':['Isolate immediately from everyone','Monitor SpO2 every few hours','Consult doctor right away','Get tested at nearest centre'],
+  'Migraine':['Rest in a dark quiet room now','Apply cold compress to forehead','Take prescribed migraine medication','Avoid screens and bright lights completely'],
+  'Gastroenteritis':['ORS every 30 minutes continuously','Eat only bland food: banana, rice, toast','Complete bed rest for 2 days','Seek help if vomiting exceeds 24 hours'],
+  'Pneumonia':['URGENT: Seek medical attention now','Take prescribed antibiotics completely','Complete bed rest, no physical activity','Monitor breathing rate every hour'],
+  'Allergy':['Identify and stay away from allergens','Take antihistamines as prescribed','Consult allergist for allergy testing','Always carry emergency medication'],
+  'Sinusitis':['Nasal saline rinse twice daily','Steam inhalation 3 times per day','Pain relievers for headache relief','See ENT if symptoms exceed 3 weeks'],
+  'Typhoid':['See a doctor today without delay','Complete the full antibiotic course','Drink only boiled or filtered water','Strict bed rest and light diet only'],
+  'Food Poisoning':['ORS or coconut water every 30 minutes','Avoid solid food for first 6 hours','Seek help if you notice blood in stool','No anti-diarrheal medicine without advice'],
+  'Heart Disease':['CALL AMBULANCE NOW: Dial 108','Chew aspirin 325mg if available','Do NOT move or exert yourself at all','Loosen clothing and remain completely still'],
+  'Bronchitis':['Rest and avoid all cold or dusty air','Drink warm liquids throughout the day','Use a humidifier while sleeping','Visit doctor if cough exceeds 3 weeks'],
+  'Dengue':['Go to hospital immediately today','Get platelet count monitored daily','Stay extremely well hydrated with fluids','Never take aspirin or ibuprofen'],
+  'Malaria':['Consult doctor urgently today','Take full course of anti-malarial drugs','Sleep under mosquito nets every night','Stay hydrated with ORS and fluids'],
+  'Cholera':['Emergency hospital admission needed','IV fluids will likely be required','Drink ORS continuously: 1 litre/hour','Boil all drinking water without exception'],
+  'Chickenpox':['Isolate completely for 7 days minimum','Apply calamine lotion to relieve itching','Take antivirals only if prescribed early','Never scratch – causes permanent scars'],
+};
+const RI={
+  Low:{e:'✅',l:'Low Risk',c:'low',m:'You can manage this at home with basic care. Monitor your symptoms for 2–3 days and get plenty of rest.'},
+  Medium:{e:'⚠️',l:'Moderate Risk',c:'medium',m:'Your symptoms suggest moderate concern. Visit a doctor within 24–48 hours. Please do not delay.'},
+  High:{e:'🚨',l:'HIGH RISK DETECTED',c:'high',m:'Seek IMMEDIATE medical attention. Please visit a hospital or call emergency services RIGHT NOW.'},
+};
+let sev='mild',hist=JSON.parse(localStorage.getItem('medix2_h')||'[]');
+
+document.getElementById('sym-grid').innerHTML=SYMS.map(s=>`<label class="sc"><input type="checkbox" id="s-${s.k}" onchange="ucount()"><div class="chip"><div class="ce">${s.e}</div>${s.l}</div></label>`).join('');
+
+function ucount(){const n=SYMS.filter(s=>document.getElementById('s-'+s.k)?.checked).length;document.getElementById('ccount').textContent=n;document.getElementById('snum').textContent=n;}
+function setSev(v){sev=v;document.getElementById('sv1').className='sp'+(v==='mild'?' sm':'');document.getElementById('sv2').className='sp'+(v==='moderate'?' smod':'');document.getElementById('sv3').className='sp'+(v==='severe'?' ssev':'');}
+function getC(){return SYMS.filter(s=>document.getElementById('s-'+s.k)?.checked).map(s=>s.k);}
+
+function doPredict(checked){
+  let best=null,bs=-1;
+  for(const r of RULES){const sc=r.s.filter(s=>checked.includes(s)).length/r.s.length;if(sc>bs){bs=sc;best=r;}}
+  if(!best||bs===0)return{d:'General Fatigue',r:'Low',p:35};
+  let risk=best.r;
+  if(sev==='severe'&&risk==='Low')risk='Medium';
+  if(sev==='severe'&&risk==='Medium')risk='High';
+  if(sev==='mild'&&risk==='High')risk='Medium';
+  if(checked.includes('chest_pain')&&checked.includes('shortness_of_breath'))risk='High';
+  const dia=document.querySelector('[name=dia]:checked')?.value==='Yes';
+  const bp=document.querySelector('[name=bp]:checked')?.value==='Yes';
+  const heart=document.querySelector('[name=heart]:checked')?.value==='Yes';
+  if((dia||bp||heart)&&risk==='Low')risk='Medium';
+  const temp=parseFloat(document.getElementById('f-temp').value)||0;
+  if(temp>103)risk='High';
+  const spo2=parseFloat(document.getElementById('f-spo2').value)||100;
+  if(spo2>0&&spo2<94)risk='High';
+  return{d:best.d,r:risk,p:Math.round(bs*100)};
+}
+
+function top3(checked,main){
+  const sc=RULES.map(r=>({d:r.d,p:r.s.filter(s=>checked.includes(s)).length/r.s.length})).sort((a,b)=>b.p-a.p);
+  const seen=new Set([main]);
+  const out=[{d:main,p:sc.find(s=>s.d===main)?.p*100||70}];
+  for(const s of sc){if(!seen.has(s.d)&&s.p>0){seen.add(s.d);out.push({d:s.d,p:Math.round(s.p*100)});if(out.length===3)break;}}
+  return out;
+}
+
+function buildExtra(res){
+  const lines=[];
+  const dia=document.querySelector('[name=dia]:checked')?.value==='Yes';
+  const bp=document.querySelector('[name=bp]:checked')?.value==='Yes';
+  const heart=document.querySelector('[name=heart]:checked')?.value==='Yes';
+  const smoke=document.querySelector('[name=smoke]:checked')?.value;
+  const travel=document.querySelector('[name=travel]:checked')?.value==='Yes';
+  const contact=document.querySelector('[name=contact]:checked')?.value==='Yes';
+  const spo2=parseFloat(document.getElementById('f-spo2').value)||0;
+  const temp=parseFloat(document.getElementById('f-temp').value)||0;
+  const age=parseInt(document.getElementById('f-age').value)||0;
+  const dur=document.getElementById('f-dur').value;
+  const meds=document.getElementById('f-meds').value;
+  const allergy=document.getElementById('f-allergy').value;
+  if(dia)lines.push('⚠️ <strong>Diabetic patient:</strong> Fever and infections can cause blood sugar spikes. Monitor glucose levels closely during illness and inform your doctor.');
+  if(bp)lines.push('⚠️ <strong>Hypertension detected:</strong> High fever and physical stress can elevate blood pressure further. Monitor BP twice daily and avoid salty or processed food.');
+  if(heart)lines.push('🚨 <strong>Heart disease history:</strong> Any chest-related symptoms must be taken very seriously. Do not self-medicate — consult a cardiologist immediately.');
+  if(smoke==='Smoker')lines.push('🚬 <strong>Active smoker:</strong> Smoking severely worsens respiratory conditions. Stop smoking completely during illness for faster recovery.');
+  if(smoke==='Alcohol')lines.push('🍺 <strong>Alcohol use noted:</strong> Alcohol weakens the immune system and interferes with medications. Avoid alcohol completely during treatment.');
+  if(travel)lines.push('✈️ <strong>Recent travel history:</strong> Travel increases risk of tropical diseases like Dengue, Malaria, and Typhoid. Mention your travel details to your doctor for targeted testing.');
+  if(contact)lines.push('🦠 <strong>Sick person contact:</strong> You may have been exposed to an infectious illness. Consider getting tested and avoid crowded public places until cleared.');
+  if(spo2>0&&spo2<96)lines.push(`📉 <strong>Low SpO2 level (${spo2}%):</strong> Oxygen saturation below 96% is a concern. If it drops below 94%, seek emergency care immediately.`);
+  if(temp>102)lines.push(`🌡️ <strong>High fever (${temp}°F):</strong> Temperature above 102°F needs medical attention. Take prescribed antipyretics and stay well hydrated.`);
+  if(age>60)lines.push('👴 <strong>Senior patient (above 60):</strong> Elderly patients face higher risk of complications from infections. Early medical consultation is strongly recommended.');
+  if(age>0&&age<5)lines.push('👶 <strong>Very young patient:</strong> Children under 5 need immediate medical attention for moderate to severe symptoms. Do not delay.');
+  if(dur.includes('2 weeks'))lines.push('⏳ <strong>Prolonged symptoms:</strong> Symptoms lasting more than 2 weeks may indicate a chronic condition. Medical investigation with blood tests is advised.');
+  if(meds&&meds.toLowerCase()!=='none'&&meds.trim())lines.push(`💊 <strong>Current medications noted (${meds}):</strong> Inform your doctor about all medications you are taking to avoid drug interactions.`);
+  if(allergy&&allergy.toLowerCase()!=='none'&&allergy.trim())lines.push(`🌿 <strong>Known allergies (${allergy}):</strong> Always mention your allergies to your doctor before starting any new medication.`);
+  return lines.length?lines.join('<br/><br/>'):'<span style="color:var(--green)">✅ No significant additional risk factors detected based on your medical profile.</span>';
+}
+
+async function analyze(){
+  const checked=getC();
+  if(!checked.length){alert('Please select at least one symptom!');return;}
+  const btn=document.getElementById('gobtn');
+  btn.classList.add('loading');btn.disabled=true;
+  await new Promise(r=>setTimeout(r,1500));
+  const res=doPredict(checked);
+  try{
+    const name=document.getElementById('f-name').value||'Anonymous';
+    const body={patient_name:name,symptoms:{}};
+    checked.forEach(c=>body.symptoms[c]=1);
+    const resp=await fetch('http://localhost:5000/predict',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(2000)});
+    if(resp.ok){const d=await resp.json();res.d=d.predicted_disease;res.r=d.risk_level;res.p=Math.round(d.top_predictions?.[0]?.probability||res.p);}
+  }catch(_){}
+
+  const name=document.getElementById('f-name').value||'Anonymous';
+  const age=document.getElementById('f-age').value;
+  const gender=document.getElementById('f-gender').value;
+  const blood=document.getElementById('f-blood').value;
+  const city=document.getElementById('f-city').value;
+  const phone=document.getElementById('f-phone').value;
+  const temp=document.getElementById('f-temp').value;
+  const spo2=document.getElementById('f-spo2').value;
+  const dur=document.getElementById('f-dur').value;
+  const bp2=document.getElementById('f-bp2').value;
+  const job=document.getElementById('f-job').value;
+
+  document.getElementById('psum').innerHTML=[
+    {l:'Patient Name',v:name},{l:'Age',v:age?age+' years':'—'},{l:'Gender',v:gender||'—'},
+    {l:'Blood Group',v:blood||'—'},{l:'Location',v:city||'—'},{l:'Occupation',v:job||'—'},
+    {l:'Phone',v:phone||'—'},{l:'Temperature',v:temp?temp+'°F':'—'},
+    {l:'SpO2 Level',v:spo2?spo2+'%':'—'},{l:'Blood Pressure',v:bp2||'—'},
+    {l:'Symptom Duration',v:dur||'—'},{l:'Symptoms Found',v:checked.length+' symptoms'},
+    {l:'Severity',v:sev.charAt(0).toUpperCase()+sev.slice(1)},{l:'Risk Level',v:res.r},
+  ].map(i=>`<div class="psi"><div class="psl">${i.l}</div><div class="psv">${i.v}</div></div>`).join('');
+
+  const ri=RI[res.r]||RI.Low;
+  document.getElementById('rbanner').className='risk-banner '+ri.c;
+  document.getElementById('remoji').textContent=ri.e;
+  document.getElementById('rlabel').textContent=ri.l;
+  document.getElementById('rmsg').textContent=ri.m;
+  document.getElementById('rdisease').textContent=res.d;
+  document.getElementById('rconf').textContent=res.p+'% match confidence';
+
+  const t3=top3(checked,res.d);
+  document.getElementById('rprobs').innerHTML=t3.map(d=>`<div class="pi"><div class="pt"><span class="pn">${d.d}</span><span class="pp">${Math.round(d.p)}%</span></div><div class="ptrack"><div class="pfill" style="width:${Math.round(d.p)}%"></div></div></div>`).join('');
+
+  const recs=RECS[res.d]||['Consult a healthcare professional immediately'];
+  document.getElementById('rrecs').innerHTML=recs.map(r=>`<div class="ri2"><div class="rdot"></div><div class="rtxt">${r}</div></div>`).join('');
+  document.getElementById('rextra').innerHTML=buildExtra(res);
+
+  const entry={id:Date.now(),name,age:age||'—',gender:gender||'—',disease:res.d,risk:res.r,symptoms:checked.map(k=>SYMS.find(s=>s.k===k)?.l).join(', '),time:new Date().toLocaleString('en-IN')};
+  hist.unshift(entry);localStorage.setItem('medix2_h',JSON.stringify(hist.slice(0,100)));
+
+  const ra=document.getElementById('rarea');
+  ra.classList.add('show');ra.scrollIntoView({behavior:'smooth',block:'start'});
+  btn.classList.remove('loading');btn.disabled=false;
+}
+
+function showTab(t,el){
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+  document.getElementById('tab-predict').style.display=t==='predict'?'':'none';
+  document.getElementById('tab-history').style.display=t==='history'?'':'none';
+  if(t==='history')renderH();
+}
+function renderH(){
+  document.getElementById('ht').textContent=hist.length;
+  document.getElementById('hh').textContent=hist.filter(h=>h.risk==='High').length;
+  document.getElementById('hm').textContent=hist.filter(h=>h.risk==='Medium').length;
+  document.getElementById('hl').textContent=hist.filter(h=>h.risk==='Low').length;
+  const tb=document.getElementById('hbody');
+  if(!hist.length){tb.innerHTML=`<tr><td colspan="7"><div class="empty-s"><div style="font-size:48px;margin-bottom:12px;">📭</div><p>No history yet. Run a prediction first!</p></div></td></tr>`;return;}
+  tb.innerHTML=hist.map(h=>`<tr><td style="font-weight:600">${h.name}</td><td>${h.age}</td><td>${h.gender}</td><td style="font-weight:600">${h.disease}</td><td><span class="badge b${h.risk.toLowerCase()[0]}">${h.risk}</span></td><td style="color:var(--muted);max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${h.symptoms}</td><td style="color:var(--muted);font-size:12px;">${h.time}</td></tr>`).join('');
+}
+</script>
+</body>
+</html>
